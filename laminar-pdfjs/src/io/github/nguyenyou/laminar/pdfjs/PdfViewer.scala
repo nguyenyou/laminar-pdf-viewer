@@ -2,13 +2,12 @@ package io.github.nguyenyou.laminar.pdfjs
 
 import com.raquo.laminar.api.L.*
 import io.github.nguyenyou.ui5.webcomponents.laminar.*
+import io.github.nguyenyou.laminar.pdfjs.libs.scalawind.*
 import org.scalajs.dom
 
 case class PdfViewer(
   urlSignal: Signal[String]
 ) {
-
-
   def apply(): HtmlElement = {
     div(
       child <-- urlSignal.map(url => {

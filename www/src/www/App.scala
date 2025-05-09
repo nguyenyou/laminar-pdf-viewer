@@ -19,9 +19,6 @@ case class App() {
       urlSignal = Val(s"${demoUrl}/pdf/compressed.tracemonkey-pldi-09.pdf")
     )
     div(
-      div(
-        Button()("Open")
-      ),
       viewer()
     )
   }
