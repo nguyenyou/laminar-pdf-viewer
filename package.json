@@ -1,0 +1,18 @@
+{
+  "name": "laminar-pdf-viewer",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "yarn@4.9.1",
+  "scripts": {
+    "generate-pdf-facades": "./mill pdfjs.scalablyTypedImportTask"
+  },
+  "workspaces": [
+    "www"
+  ],
+  "dependencies": {
+    "pdfjs-dist": "5.2.133"
+  },
+  "devDependencies": {
+    "typescript": "5"
+  }
+}
