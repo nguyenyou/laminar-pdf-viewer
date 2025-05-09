@@ -42,7 +42,7 @@ jobs:
       - name: Build ScalaJS
         run: ./mill -i www.fullLinkJS
       - name: Build Vite
-        run: yarn workspace www build:gh-pages
+        run: yarn workspace www build
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

@@ -4,7 +4,7 @@ import io.github.nguyenyou.pdfjs.pdfjsDist.mod
 import io.github.nguyenyou.pdfjs.pdfjsDist.mod.version
 import scalajs.js
 
-object Config {
+object PdfConfig {
     val PdfjsVersion = version
 
     val defaultWorkerUrl = s"https://cdn.jsdelivr.net/npm/pdfjs-dist@${PdfjsVersion}/build/pdf.worker.min.mjs"

@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:gh-pages": "vite build --base=/laminar-pdf-viewer/",
     "preview": "vite preview"
   },
   "devDependencies": {
