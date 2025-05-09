@@ -10,7 +10,7 @@ def main(): Unit = {
     Config.setWorkerUrl()
     val container = dom.document.getElementById("app")
     val viewer = Viewer(
-        urlSignal = Val("/pdf/compressed.tracemonkey-pldi-09.pdf")
+        urlSignal = Val("/laminar-pdf-viewer/pdf/compressed.tracemonkey-pldi-09.pdf")
     )
     val app = div(
         h1("Hello, world!"),
