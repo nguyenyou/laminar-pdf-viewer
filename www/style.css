@@ -1,0 +1,135 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@source "../out/www/fullLinkJS.dest";
+
+@theme {
+  --font-sans: "Geist", "sans-serif";
+  --font-mono: "Geist Mono", "monospace";
+  --color-primary: rgb(205, 37, 41);
+  --color-sap-brand: var(--sapBrandColor);
+  --color-sap-text: var(--sapTextColor);
+  --color-sap-neutral: var(--sapNeutralColor);
+  --color-sap-background: var(--sapBackgroundColor);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--sapBackgroundColor);
+  color: var(--sapTextColor);
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+  border-top-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+}
+
+.border-t {
+  border-top-width: 1px;
+  border-bottom-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+}
+
+.border-l {
+  border-left-width: 1px;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-right-width: 0;
+}
+
+.border-r {
+  border-right-width: 1px;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-left-width: 0;
+}
+a {
+  color: inherit;
+  -webkit-text-decoration: inherit;
+  text-decoration: inherit;
+}
+
+pre, code {
+  @apply font-mono;
+}
+
+.border-grid {
+  border-style: dashed;
+  border-color: color-mix(in oklab,var(--sapNeutralColor)20%,transparent)
+}
+
+.border-border {
+  border-style: solid;
+  border-color: color-mix(in oklab,var(--sapNeutralColor)20%,transparent)
+}
+
+.sidebar-item-hover {
+  background-color: color-mix(in oklab,var(--sapBrandColor)10%,transparent);
+}
+
+.hover\:sidebar-item-hover:hover {
+  background-color: color-mix(in oklab,var(--sapBrandColor)10%,transparent);
+}
+
+.container-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1400px;
+  /* border-style: dashed; */
+  border-color: color-mix(in oklab,var(--sapNeutralColor)20%,transparent)
+}
+
+.container-wrapper:is(.dark *) {
+  border-color: color-mix(in oklab,var(--sapNeutralColor)20%,transparent)
+}
+
+@media (min-width: 1400px) {
+  .container-wrapper {
+      border-left-width:1px;
+      border-right-width: 1px
+  }
+}
+
+@media (min-width: 1800px) {
+  .container-wrapper {
+      max-width:1536px
+  }
+}
+
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1536px;
+  padding-left: 1rem;
+  padding-right: 1rem
+}
+
+@media (min-width: 1280px) {
+  .container {
+      padding-left:1.5rem;
+      padding-right: 1.5rem
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none
+}

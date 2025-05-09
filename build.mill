@@ -29,7 +29,7 @@ object Versions {
 
 object Dependencies {
   val `ui5-webcomponents-laminar` = Agg(
-    ivy"io.github.nguyenyou::ui5-webcomponents-laminar::${Versions.`ui5-webcomponents-laminar`}"
+    ivy"io.github.nguyenyou::ui5-webcomponents-laminar::${Versions.`ui5-webcomponents-laminar`}".exclude("com.raquo" -> "laminar_sjs1_3").exclude("org.scala-js" -> "scalajs-dom_sjs1_3")
   )
 
   val laminar = Agg(
@@ -78,21 +78,25 @@ object www extends WebModule with Scalafix {
     Dependencies.waypoint ++
     Dependencies.macrotask ++
     Dependencies.borer ++
-    Dependencies.laminar
+    Dependencies.laminar ++
+    Dependencies.scalajsDom ++
+    Dependencies.`ui5-webcomponents-laminar`
+
+  def moduleDeps = Seq(`laminar-pdfjs`)
 }
 
 object `laminar-pdfjs` extends WebModule with Scalafix {
-  def ivyDeps = super.ivyDeps() ++ Dependencies.scalajsDom
+  def ivyDeps = super.ivyDeps() ++ Dependencies.laminar ++ Dependencies.`ui5-webcomponents-laminar`
 
   def moduleDeps = Seq(pdfjs)
 }
 
-object pdfjs extends WebModule with Scalafix with ScalablyTyped {
+object pdfjs extends WebModule with ScalablyTyped {
   def ivyDeps = super.ivyDeps() ++ Dependencies.scalajsDom
 
   override def stOutputPackage = "io.github.nguyenyou.pdfjs"
   override def stOutputPath = millSourcePath / "src"
-  def stIgnoredLibs: T[Seq[String]] = T { Seq("@napi-rs/canvas") }
+  def stIgnoredLibs: T[Seq[String]] = T { Seq("@napi-rs/canvas", "@ui5/webcomponents") }
   override def stMinimize = MinimizeSelection.AllExcept(
     "pdfjs-dist"
   )

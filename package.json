@@ -4,15 +4,24 @@
   "private": true,
   "packageManager": "yarn@4.9.1",
   "scripts": {
+    "dev": "yarn www:dev && concurrently -c \"auto\" \"yarn www:dev-watch\" \"yarn www:dev-server\"",
+    "www:dev": "./mill www.fullLinkJS",
+    "www:dev-watch": "./mill -w www.fullLinkJS",
+    "www:dev-server": "yarn workspace www dev",
+    "www:prod": "./mill www.fullLinkJS && yarn workspace www build",
+    "www:fmt": "./mill mill.scalalib.scalafmt.ScalafmtModule/ www.sources",
+    "www:fix": "./mill www.fix",
     "generate-pdf-facades": "./mill pdfjs.scalablyTypedImportTask"
   },
   "workspaces": [
     "www"
   ],
   "dependencies": {
+    "@ui5/webcomponents": "2.10.0",
     "pdfjs-dist": "5.2.133"
   },
   "devDependencies": {
-    "typescript": "5"
+    "concurrently": "9.1.2",
+    "typescript": "5.8.3"
   }
 }
