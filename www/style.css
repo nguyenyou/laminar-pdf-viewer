@@ -3,6 +3,7 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @source "../out/www/fullLinkJS.dest";
+@source "../out/www/fastLinkJS.dest";
 
 @theme {
   --font-sans: "Geist", "sans-serif";

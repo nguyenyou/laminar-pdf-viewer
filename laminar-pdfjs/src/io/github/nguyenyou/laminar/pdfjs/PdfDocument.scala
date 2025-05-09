@@ -6,6 +6,8 @@ import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.{DocumentInitPa
 import PdfDocument.DocumentStatus
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
+import io.github.nguyenyou.ui5.webcomponents.laminar.*
+import io.github.nguyenyou.laminar.pdfjs.libs.scalawind.*
 
 case class PdfDocument(
     url: String
@@ -24,7 +26,14 @@ case class PdfDocument(
   def apply(render: PDFDocumentProxy => HtmlElement): HtmlElement = {
     div(
       child <-- statusSignal.map {
-        case DocumentStatus.Loading     => div("Loading document...")
+        case DocumentStatus.Loading     => div(
+          BusyIndicator(
+            _.active := true,
+            _.text   := "Loading document..."
+          )(
+            div(tw.w_("200px").h_("200px"))
+          ),
+        )
         case DocumentStatus.Error       => div("Load document error")
         case DocumentStatus.Loaded(doc) => render(doc)
       }
