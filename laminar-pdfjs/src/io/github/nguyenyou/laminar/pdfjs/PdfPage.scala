@@ -1,15 +1,56 @@
 package io.github.nguyenyou.laminar.pdfjs
 
 import com.raquo.laminar.api.L.*
+
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.PDFDocumentProxy
+import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.{GetViewportParameters, PDFPageProxy}
+import PdfPage.PageStatus
+import scala.util.{Failure, Success}
+import scala.concurrent.ExecutionContext.Implicits.global
+import io.github.nguyenyou.laminar.pdfjs.libs.scalawind.*
 
 case class PdfPage(
     pageIndex: Int,
     doc: PDFDocumentProxy
 ) {
+  val statusVar = Var[PageStatus](PageStatus.Loading)
+
+  doc.getPage(pageIndex + 1).toFuture.onComplete {
+    case Failure(_)    => statusVar.set(PageStatus.Error)
+    case Success(page) => statusVar.set(PageStatus.Loaded(page = page))
+  }
+
+  def renderPage(page: PDFPageProxy) = {
+    val viewport = page.getViewport(GetViewportParameters(scale = 1))
+    div(
+      tw.relative.border.border_grid,
+      width := s"${viewport.width}px",
+      height := s"${viewport.height}px",
+      PdfCanvas(
+        width = viewport.width,
+        height = viewport.height,
+        scale = 1,
+        page = page
+      )()
+    )
+  }
+
   def apply(): HtmlElement = {
     div(
-      pageIndex
+      child <-- statusVar.signal.map {
+        case PageStatus.Loading => div("Loading page...")
+        case PageStatus.Error => div("Load page error")
+        case PageStatus.Loaded(page) => renderPage(page)
+      }
     )
+  }
+}
+
+object PdfPage {
+  sealed trait PageStatus
+  object PageStatus {
+    case object Loading                   extends PageStatus
+    case object Error                     extends PageStatus
+    case class Loaded(page: PDFPageProxy) extends PageStatus
   }
 }

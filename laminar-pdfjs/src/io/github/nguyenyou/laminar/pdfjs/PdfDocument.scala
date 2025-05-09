@@ -14,24 +14,19 @@ case class PdfDocument(
   private val statusVar                    = Var[DocumentStatus](DocumentStatus.Loading)
   val statusSignal: Signal[DocumentStatus] = statusVar.signal.distinct
 
-  private def loadDocument(): Unit = {
-    val loadingTask = getDocument(params)
+  private val loadingTask = getDocument(params)
 
-    loadingTask.promise.toFuture.onComplete {
-      case Failure(_)    => statusVar.set(DocumentStatus.Error)
-      case Success(doc) => statusVar.set(DocumentStatus.Loaded(doc))
-    }
+  loadingTask.promise.toFuture.onComplete {
+    case Failure(_)    => statusVar.set(DocumentStatus.Error)
+    case Success(doc) => statusVar.set(DocumentStatus.Loaded(doc))
   }
 
   def apply(render: PDFDocumentProxy => HtmlElement): HtmlElement = {
     div(
       child <-- statusSignal.map {
-        case DocumentStatus.Loading     => div("Loading...")
-        case DocumentStatus.Error       => div("Error")
+        case DocumentStatus.Loading     => div("Loading document...")
+        case DocumentStatus.Error       => div("Load document error")
         case DocumentStatus.Loaded(doc) => render(doc)
-      },
-      onMountCallback { _ =>
-        loadDocument()
       }
     )
   }

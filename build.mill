@@ -71,6 +71,15 @@ trait NoDoc extends ScalaModule {
   }
 }
 
+trait CommonPublish extends SonatypeCentralPublishModule {
+  def sonatypeCentralConnectTimeout: T[Int] = Task { defaultConnectTimeout * 5 }
+
+  def sonatypeCentralReadTimeout: T[Int] = Task { defaultReadTimeout * 5 }
+
+  def sonatypeCentralAwaitTimeout: T[Int] = Task { defaultAwaitTimeout * 5 }
+}
+
+
 object www extends WebModule with Scalafix {
   def moduleKind = ModuleKind.ESModule
 
@@ -91,12 +100,24 @@ object `laminar-pdfjs` extends WebModule with Scalafix {
   def moduleDeps = Seq(pdfjs)
 }
 
-object pdfjs extends WebModule with ScalablyTyped {
+object pdfjs extends WebModule with ScalablyTyped with CommonPublish {
+
+  def publishVersion = Versions.pdfjs
+
+  def pomSettings = PomSettings(
+    description = "PDF.js Facades",
+    organization = "io.github.nguyenyou",
+    url = "https://github.com/nguyenyou/laminar-pdf-viewer",
+    licenses = Seq(License.MIT),
+    versionControl = VersionControl.github("nguyenyou", "laminar-pdf-viewer"),
+    developers = Seq(Developer("nguyenyou", "Nguyen You", "https://github.com/nguyenyou")),
+  )
+
   def ivyDeps = super.ivyDeps() ++ Dependencies.scalajsDom
 
   override def stOutputPackage = "io.github.nguyenyou.pdfjs"
   override def stOutputPath = millSourcePath / "src"
-  def stIgnoredLibs: T[Seq[String]] = T { Seq("@napi-rs/canvas", "@ui5/webcomponents") }
+  def stIgnoredLibs = T { Seq("@napi-rs/canvas", "@ui5/webcomponents") }
   override def stMinimize = MinimizeSelection.AllExcept(
     "pdfjs-dist"
   )
