@@ -1,7 +1,6 @@
 package io.github.nguyenyou.laminar.pdfjs
 
 import com.raquo.laminar.api.L.*
-import io.github.nguyenyou.laminar.pdfjs.libs.scalawind.*
 import io.github.nguyenyou.pdfjs.pdfjsDist.mod.getDocument
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.DocumentInitParameters
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.PDFDocumentProxy
@@ -29,7 +28,7 @@ case class PdfDocument(
 
   def apply(render: PDFDocumentProxy => HtmlElement): HtmlElement = {
     div(
-      dataAttr("ui") := "pdf-document",
+      cls("pdf-document"),
       child <-- statusSignal.map {
         case DocumentStatus.Loading =>
           div(
@@ -37,7 +36,10 @@ case class PdfDocument(
               _.active := true,
               _.text   := "Loading document..."
             )(
-              div(tw.w_("200px").h_("200px"))
+              div(
+                width.px(200),
+                height.px(200)
+              )
             )
           )
         case DocumentStatus.Error       => div("Load document error")

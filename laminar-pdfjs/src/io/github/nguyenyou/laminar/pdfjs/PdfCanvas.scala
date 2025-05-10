@@ -2,7 +2,6 @@ package io.github.nguyenyou.laminar.pdfjs
 
 import com.raquo.laminar.api.L.*
 import io.github.nguyenyou.laminar.pdfjs.facades.AnnotationMode
-import io.github.nguyenyou.laminar.pdfjs.libs.scalawind.*
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.GetViewportParameters
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.PDFPageProxy
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.RenderParameters
@@ -41,8 +40,7 @@ case class PdfCanvas(
 
   def apply(): HtmlElement = {
     div(
-      dataAttr("ui") := "pdf-canvas",
-      tw.overflow_hidden.w_full.h_full,
+      cls("pdf-canvas"),
       canvas
     )
   }

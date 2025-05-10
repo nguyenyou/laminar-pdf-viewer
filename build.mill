@@ -15,6 +15,7 @@ import mill.contrib.sonatypecentral.SonatypeCentralPublishModule.{
 import $ivy.`com.lihaoyi::mill-contrib-buildinfo:`
 import mill.contrib.buildinfo.BuildInfo
 
+
 object Versions {
   val scala3 = "3.7.0"
   val sjs = "1.19.0"
@@ -132,7 +133,7 @@ object pdfjs extends WebModule with ScalablyTyped with CommonPublish {
   def ivyDeps = super.ivyDeps() ++ Dependencies.scalajsDom
 
   override def stOutputPackage = "io.github.nguyenyou.pdfjs"
-  override def stOutputPath = millSourcePath / "src"
+  override def stOutputPath = moduleDir / "src"
   def stIgnoredLibs = T { Seq("@napi-rs/canvas", "@ui5/webcomponents") }
   override def stMinimize = MinimizeSelection.AllExcept(
     "pdfjs-dist"

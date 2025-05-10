@@ -1,7 +1,6 @@
 package io.github.nguyenyou.laminar.pdfjs
 
 import com.raquo.laminar.api.L.*
-import io.github.nguyenyou.laminar.pdfjs.libs.scalawind.*
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.GetViewportParameters
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.PDFDocumentProxy
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.PDFPageProxy
@@ -26,8 +25,7 @@ case class PdfPage(
   private def renderPage(page: PDFPageProxy) = {
     val viewport = page.getViewport(GetViewportParameters(scale = 1))
     div(
-      dataAttr("ui") := "pdf-page",
-      tw.relative.border.border_grid,
+      cls("pdf-page"),
       width  := s"${viewport.width}px",
       height := s"${viewport.height}px",
       PdfCanvas(
@@ -41,8 +39,7 @@ case class PdfPage(
 
   def apply(): HtmlElement = {
     div(
-      dataAttr("ui") := "pdf-page-wrapper",
-      tw.flex.justify_center,
+      cls("pdf-page-wrapper"),
       child <-- statusVar.signal.map {
         case PageStatus.Loading      => div("Loading page...")
         case PageStatus.Error        => div("Load page error")

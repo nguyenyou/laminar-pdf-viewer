@@ -5,8 +5,8 @@
   "packageManager": "yarn@4.9.1",
   "scripts": {
     "dev": "yarn www:dev && concurrently -c \"auto\" \"yarn www:dev-watch\" \"yarn www:dev-server\"",
-    "www:dev": "./mill www.fullLinkJS",
-    "www:dev-watch": "./mill -w www.fullLinkJS",
+    "www:dev": "./mill www.fastLinkJS",
+    "www:dev-watch": "./mill -w www.fastLinkJS",
     "www:dev-server": "yarn workspace www dev",
     "www:prod": "./mill www.fullLinkJS && yarn workspace www build",
     "www:fmt": "./mill mill.scalalib.scalafmt.ScalafmtModule/ www.sources",
