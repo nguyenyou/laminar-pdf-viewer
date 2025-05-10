@@ -20,9 +20,10 @@ case class PdfPage(
     case Success(page) => statusVar.set(PageStatus.Loaded(page = page))
   }
 
-  def renderPage(page: PDFPageProxy) = {
+  private def renderPage(page: PDFPageProxy) = {
     val viewport = page.getViewport(GetViewportParameters(scale = 1))
     div(
+      dataAttr("ui") := "pdf-page",
       tw.relative.border.border_grid,
       width := s"${viewport.width}px",
       height := s"${viewport.height}px",
@@ -37,6 +38,8 @@ case class PdfPage(
 
   def apply(): HtmlElement = {
     div(
+      dataAttr("ui") := "pdf-page-wrapper",
+      tw.flex.justify_center,
       child <-- statusVar.signal.map {
         case PageStatus.Loading => div("Loading page...")
         case PageStatus.Error => div("Load page error")

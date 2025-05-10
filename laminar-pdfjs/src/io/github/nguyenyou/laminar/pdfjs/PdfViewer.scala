@@ -10,11 +10,12 @@ case class PdfViewer(
 ) {
   def apply(): HtmlElement = {
     div(
+      dataAttr("ui") := "pdf-viewer",
       child <-- urlSignal.map(url => {
         PdfDocument(url) { doc =>
           div(
+            dataAttr("ui") := "pdf-pages",
             0.until(doc.numPages.toInt).map { pageIndex =>
-              div(pageIndex.toString)
               PdfPage(
                 pageIndex = pageIndex,
                 doc = doc

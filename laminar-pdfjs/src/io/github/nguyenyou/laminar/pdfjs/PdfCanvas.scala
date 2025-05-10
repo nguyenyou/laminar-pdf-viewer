@@ -37,6 +37,7 @@ case class PdfCanvas(
   }
   def apply(): HtmlElement = {
     div(
+      dataAttr("ui") := "pdf-canvas",
       tw.overflow_hidden.w_full.h_full,
       canvas
     )

@@ -25,6 +25,7 @@ case class PdfDocument(
 
   def apply(render: PDFDocumentProxy => HtmlElement): HtmlElement = {
     div(
+      dataAttr("ui") := "pdf-document",
       child <-- statusSignal.map {
         case DocumentStatus.Loading     => div(
           BusyIndicator(
