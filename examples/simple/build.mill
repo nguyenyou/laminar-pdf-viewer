@@ -1,0 +1,15 @@
+package build
+
+import mill._, scalalib._, scalajslib._, scalajslib.api._
+
+object simple extends ScalaJSModule {
+    def scalaVersion = "3.7.0"
+    def scalaJSVersion = "1.19.0"
+    def moduleKind = ModuleKind.ESModule
+    
+    def ivyDeps = Agg(
+        ivy"com.raquo::laminar::17.2.1",
+        ivy"org.scala-js::scalajs-dom::2.8.0",
+        ivy"io.github.nguyenyou::laminar-pdfjs::0.0.2"
+    )
+}
