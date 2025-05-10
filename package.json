@@ -11,6 +11,8 @@
     "www:prod": "./mill www.fullLinkJS && yarn workspace www build",
     "www:fmt": "./mill mill.scalalib.scalafmt.ScalafmtModule/ www.sources",
     "www:fix": "./mill www.fix",
+    "laminar-pdfjs:fmt": "./mill mill.scalalib.scalafmt.ScalafmtModule/ laminar-pdfjs.sources",
+    "laminar-pdfjs:fix": "./mill laminar-pdfjs.fix",
     "generate-pdfjs-facades": "./mill pdfjs.scalablyTypedImportTask",
     "release:pdfjs-facades": "./mill -i pdfjs.publishSonatypeCentral"
   },

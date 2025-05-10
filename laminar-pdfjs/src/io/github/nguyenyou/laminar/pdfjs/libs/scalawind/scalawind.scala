@@ -21,8 +21,8 @@ trait LowPriorityImplicits {
 
 trait HighPriorityImplicits extends LowPriorityImplicits {
   implicit inline def laminarHtmlHeading(
-                                          inline tailwind: Tailwind
-                                        ): L.Modifier[ReactiveHtmlElement[HTMLHeadingElement]] = {
+      inline tailwind: Tailwind
+  ): L.Modifier[ReactiveHtmlElement[HTMLHeadingElement]] = {
     ${ toHtmlHeadingModImpl('tailwind) }
   }
 }
@@ -47,7 +47,7 @@ extension (inline tailwind: Tailwind) {
 }
 
 def boolSignalClsImpl(tailwindExpr: Expr[Tailwind], boolSignal: Expr[L.Signal[Boolean]])(using
-                                                                                         Quotes
+    Quotes
 ): Expr[L.HtmlMod] = {
   val value = swImpl(tailwindExpr).valueOrAbort
   '{ L.cls(${ Expr(value) }) <-- ${ boolSignal } }
@@ -59,26 +59,26 @@ def boolClsImpl(tailwindExpr: Expr[Tailwind], bool: Expr[Boolean])(using Quotes)
 }
 
 def laminarTailwindImpl(
-                         tailwindExpr: Expr[Tailwind]
-                       )(using
-                         Quotes
-                       ): Expr[L.HtmlMod] = {
+    tailwindExpr: Expr[Tailwind]
+)(using
+    Quotes
+): Expr[L.HtmlMod] = {
   val value = swImpl(tailwindExpr).valueOrAbort
   '{ L.cls := ${ Expr(value) } }
 }
 
 def laminarSvgTailwindImpl(
-                            tailwindExpr: Expr[Tailwind]
-                          )(using
-                            Quotes
-                          ): Expr[L.SvgMod] = {
+    tailwindExpr: Expr[Tailwind]
+)(using
+    Quotes
+): Expr[L.SvgMod] = {
   val value = swImpl(tailwindExpr).valueOrAbort
   '{ L.svg.className := ${ Expr(value) } }
 }
 
 def toHtmlHeadingModImpl(
-                          tailwindExpr: Expr[Tailwind]
-                        )(using Quotes): Expr[L.Modifier[ReactiveHtmlElement[HTMLHeadingElement]]] = {
+    tailwindExpr: Expr[Tailwind]
+)(using Quotes): Expr[L.Modifier[ReactiveHtmlElement[HTMLHeadingElement]]] = {
   val value = swImpl(tailwindExpr).valueOrAbort
   '{ L.cls := ${ Expr(value) } }
 }

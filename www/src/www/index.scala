@@ -1,10 +1,9 @@
 package www
 
 import com.raquo.laminar.api.L.*
-import org.scalajs.dom
-
-import www.components.ThemeProvider
 import io.github.nguyenyou.laminar.pdfjs.PdfConfig
+import org.scalajs.dom
+import www.components.ThemeProvider
 @main
 def main(): Unit = {
   PdfConfig.setWorkerUrl()

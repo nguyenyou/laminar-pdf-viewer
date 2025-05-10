@@ -1,11 +1,9 @@
 package www
 
 import com.raquo.laminar.api.L.*
+import io.github.nguyenyou.laminar.pdfjs.PdfViewer
 
 import scala.scalajs.LinkingInfo.developmentMode
-import io.github.nguyenyou.laminar.pdfjs.PdfViewer
-import io.github.nguyenyou.ui5.webcomponents.laminar.*
-
 
 case class App() {
   def apply(): HtmlElement = {

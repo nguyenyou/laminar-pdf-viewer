@@ -5,7 +5,7 @@ import io.github.nguyenyou.laminar.pdfjs.libs.scalawind.*
 import org.scalajs.dom
 
 case class PdfViewer(
-  urlSignal: Signal[String]
+    urlSignal: Signal[String]
 ) {
   def apply(): HtmlElement = {
     div(
@@ -23,11 +23,11 @@ case class PdfViewer(
             }
           )
         }
-      }),
+      })
     )
   }
 }
 
 object PdfViewer {
-  def DPR = dom.window.devicePixelRatio
+  def DPR: Double = dom.window.devicePixelRatio
 }
