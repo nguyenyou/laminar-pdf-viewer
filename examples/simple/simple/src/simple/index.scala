@@ -1,13 +1,20 @@
 package simple
 
 import org.scalajs.dom
-import com.raquo.laminar.api.L._
+import com.raquo.laminar.api.L.*
 import io.github.nguyenyou.laminar.pdfjs.PdfConfig
 import io.github.nguyenyou.laminar.pdfjs.PdfViewer
 
+import scalajs.js
+
 @main
 def main(): Unit = {
-  PdfConfig.setWorkerUrl()
+  val workerUrl = org.scalajs.dom.URL(
+    url = "pdfjs-dist/build/pdf.worker.min.mjs",
+    base = js.`import`.meta.url.asInstanceOf[String]
+  ).toString
+  PdfConfig.setWorkerUrl(workerUrl)
+
   render(
     dom.document.getElementById("app"),
     PdfViewer(

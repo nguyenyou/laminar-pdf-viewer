@@ -9,9 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-     "pdfjs-dist": "5.2.133"
+    "pdfjs-dist": "5.2.133"
   },
   "devDependencies": {
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vite-plugin-static-copy": "^2.3.1"
   }
 }
