@@ -39,8 +39,6 @@ jobs:
           key: ${{ runner.os }}-mill-${{ hashFiles('build.mill') }}-${{ hashFiles('**/*.scala') }}
           restore-keys: |
             ${{ runner.os }}-mill-
-      - name: Build mupdfjs-worker
-        run: yarn build:mupdfjs-worker
       - name: Build ScalaJS
         run: ./mill -i www.fullLinkJS
       - name: Build Vite
