@@ -30,6 +30,8 @@ export class MupdfWorker {
       "application/pdf"
     ) as PDFDocument;
 
+    console.log("countPages", this.pdfdocument.countPages());
+
     return true;
   }
 
@@ -55,8 +57,16 @@ export class MupdfWorker {
   }
 }
 
+const engine = new MupdfWorker();
+
 onmessage = (event) => {
   console.log("onmessage", event);
+  const data = event.data
+  if(data?.data?.name === "openDocument") {
+    if(data?.data?.args?.length > 0 && data?.data?.args[0] instanceof ArrayBuffer) {
+      engine.loadDocument(data.data.args[0]);
+    }
+  }
 };
 
-postMessage("Hello from worker");
+postMessage("Ai Assistant: Hi there! How can I help you today?");

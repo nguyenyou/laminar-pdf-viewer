@@ -29,12 +29,12 @@ object Main {
     //   .asInstanceOf[WorkerOptions]
     // val mupdfWorker   = new Worker(mupdfWorkerUrl, workerOptions)
 
-    worker.addEventListener(
-      "message",
-      (event: MessageEvent) => {
-        println(s"message: ${event.data}")
-      }
-    )
+    // worker.addEventListener(
+    //   "message",
+    //   (event: MessageEvent) => {
+    //     println(s"message: ${event.data}")
+    //   }
+    // )
 
     // val someWorker = new Worker(org.scalajs.dom
     //   .URL(
@@ -45,7 +45,7 @@ object Main {
 
     val container = dom.document.getElementById("app")
 
-    render(container, ThemeProvider()(App()()))
+    render(container, ThemeProvider()(App(worker = worker)()))
   }
 
 }

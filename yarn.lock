@@ -1046,6 +1046,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"comlink@npm:^4.4.2":
+  version: 4.4.2
+  resolution: "comlink@npm:4.4.2"
+  checksum: 10c0/38aa1f455cf08e94aaa8fc494fd203cc0ef02ece6c21404b7931ce17567e8a72deacddab98aa5650cfd78332ff24c34610586f6fb27fd19dc77e753ed1980deb
+  languageName: node
+  linkType: hard
+
 "commander@npm:^4.0.0":
   version: 4.1.1
   resolution: "commander@npm:4.1.1"
@@ -1466,6 +1473,7 @@ __metadata:
     "@tailwindcss/vite": "npm:^4.1.5"
     "@types/node": "npm:^22.15.17"
     "@ui5/webcomponents": "npm:2.10.0"
+    comlink: "npm:^4.4.2"
     concurrently: "npm:9.1.2"
     mupdf: "npm:1.3.6"
     pdfjs-dist: "npm:5.2.133"
