@@ -5,7 +5,6 @@ import io.github.nguyenyou.laminar.pdfjs.PdfConfig
 import org.scalajs.dom
 import www.components.ThemeProvider
 import org.scalajs.dom.{MessageEvent, Worker, WorkerOptions, WorkerType}
-import io.github.nguyenyou.comlink.comlink.mod.wrap
 import io.github.nguyenyou.mupdfjs.worker.MupdfWorker
 import io.github.nguyenyou.comlink.comlink.distUmdProtocolMod.Endpoint
 
@@ -32,10 +31,9 @@ def main(): Unit = {
       `type` = WorkerType.module
     )
     .asInstanceOf[WorkerOptions]
-  val webWorker   = new Worker(mupdfWorkerUrl, workerOptions)
-  val mupdfWorker = wrap[MupdfWorker](webWorker.asInstanceOf[Endpoint])
+  val mupdfWorker   = new Worker(mupdfWorkerUrl, workerOptions)
 
-  webWorker.addEventListener(
+  mupdfWorker.addEventListener(
     "message",
     (event: MessageEvent) => {
       if (event.data == "MUPDF_LOADED") {
@@ -43,6 +41,8 @@ def main(): Unit = {
       }
     }
   )
+
+  mupdfWorker.postMessage("Hello from main thread")
 
   val someWorker = new Worker(org.scalajs.dom
     .URL(
@@ -53,5 +53,7 @@ def main(): Unit = {
 
   val container = dom.document.getElementById("app")
 
-  render(container, ThemeProvider()(div("hi worker")))
+  render(container, ThemeProvider()(App(
+    mupdfWorker = mupdfWorker
+  )()))
 }

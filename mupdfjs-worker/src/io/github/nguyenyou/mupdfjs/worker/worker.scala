@@ -3,6 +3,7 @@ package io.github.nguyenyou.mupdfjs.worker
 import scala.annotation.unused
 import scala.scalajs.js.annotation.JSGlobalScope
 import scala.scalajs.js
+import org.scalajs.dom.MessageEvent
 
 val MUPDF_LOADED = "MUPDF_LOADED"
 
@@ -35,6 +36,9 @@ object WorkerGlobal extends js.Object {
 @main def main(): Unit = {
     println("mupdfjs-worker loaded!")
     WorkerGlobal.postMessage(MUPDF_LOADED)
+    WorkerGlobal.addEventListener("message", (event: MessageEvent) => {
+      println("WORKER RECEIVED MESSAGE: " + event.data)
+    })
 }
 
 

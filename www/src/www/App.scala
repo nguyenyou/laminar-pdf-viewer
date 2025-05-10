@@ -1,9 +1,10 @@
 package www
 
 import com.raquo.laminar.api.L.*
-import io.github.nguyenyou.laminar.pdfjs.PdfViewer
+import io.github.nguyenyou.ui5.webcomponents.laminar.*
 
 import scala.scalajs.LinkingInfo.developmentMode
+import org.scalajs.dom.Worker
 
 val demoUrl = if (developmentMode) {
   ""
@@ -11,12 +12,17 @@ val demoUrl = if (developmentMode) {
   "/laminar-pdf-viewer"
 }
 
-case class App() {
+case class App(
+  mupdfWorker: Worker
+) {
   def apply(): HtmlElement = {
     div(
-      PdfViewer(
-        urlSignal = Val(s"${demoUrl}/pdf/compressed.tracemonkey-pldi-09.pdf")
-      )()
+      div("hi worker"),
+      Button(
+        _.onClick --> Observer { _ =>
+          mupdfWorker.postMessage("Say hello from main thread")
+        }
+      )("Click me")
     )
   }
 }
