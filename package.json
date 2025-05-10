@@ -13,15 +13,23 @@
     "www:fix": "./mill www.fix",
     "laminar-pdfjs:fmt": "./mill mill.scalalib.scalafmt.ScalafmtModule/ laminar-pdfjs.sources",
     "laminar-pdfjs:fix": "./mill laminar-pdfjs.fix",
-    "generate-pdfjs-facades": "./mill pdfjs.scalablyTypedImportTask",
+    "generate-facades:pdfjs": "./mill pdfjs.scalablyTypedImportTask",
+    "generate-facades:comlink": "./mill comlink.scalablyTypedImportTask",
+    "generate-facades:mupdfjs": "./mill mupdfjs.scalablyTypedImportTask",
+    "release:laminar-pdfjs": "./mill -i laminar-pdfjs.publishSonatypeCentral",
     "release:pdfjs-facades": "./mill -i pdfjs.publishSonatypeCentral",
-    "release:laminar-pdfjs": "./mill -i laminar-pdfjs.publishSonatypeCentral"
+    "release:comlink-facades": "./mill -i comlink.publishSonatypeCentral",
+    "release:mupdfjs-facades": "./mill -i mupdfjs.publishSonatypeCentral",
+    "build:mupdfjs-worker": "./mill mupdfjs-worker.fullLinkJS && cp out/mupdfjs-worker/fullLinkJS.dest/main.js www/public/mupdfjs-worker.js"
   },
   "workspaces": [
-    "www"
+    "www",
+    "mupdfjs-worker"
   ],
   "dependencies": {
     "@ui5/webcomponents": "2.10.0",
+    "comlink": "4.4.2",
+    "mupdf": "1.3.6",
     "pdfjs-dist": "5.2.133"
   },
   "devDependencies": {
