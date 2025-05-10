@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:scala": "./mill simple.fullLinkJS",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ui5/webcomponents": "^2.10.0",
     "pdfjs-dist": "5.2.133"
   },
   "devDependencies": {
