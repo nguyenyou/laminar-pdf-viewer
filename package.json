@@ -14,7 +14,8 @@
     "laminar-pdfjs:fmt": "./mill mill.scalalib.scalafmt.ScalafmtModule/ laminar-pdfjs.sources",
     "laminar-pdfjs:fix": "./mill laminar-pdfjs.fix",
     "generate-pdfjs-facades": "./mill pdfjs.scalablyTypedImportTask",
-    "release:pdfjs-facades": "./mill -i pdfjs.publishSonatypeCentral"
+    "release:pdfjs-facades": "./mill -i pdfjs.publishSonatypeCentral",
+    "release:laminar-pdfjs": "./mill -i laminar-pdfjs.publishSonatypeCentral"
   },
   "workspaces": [
     "www"

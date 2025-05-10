@@ -21,6 +21,7 @@ object Versions {
   val scalajsDom = "2.8.0"
   val laminar = "17.2.1"
   val `ui5-webcomponents-laminar` = "2.10.4"
+  val `laminar-pdfjs` = "0.0.1"
   val waypoint = "9.0.0"
   val macrotask = "1.1.1"
   val borer = "1.14.0"
@@ -51,6 +52,10 @@ object Dependencies {
   val borer = Seq(
     ivy"io.bullet::borer-core::${Versions.borer}",
     ivy"io.bullet::borer-derivation::${Versions.borer}",
+  )
+
+  val pdfjs = Seq(
+    ivy"io.github.nguyenyou::pdfjs::${Versions.pdfjs}"
   )
 }
 
@@ -94,10 +99,21 @@ object www extends WebModule with Scalafix {
   def moduleDeps = Seq(`laminar-pdfjs`)
 }
 
-object `laminar-pdfjs` extends WebModule with Scalafix {
-  def ivyDeps = super.ivyDeps() ++ Dependencies.laminar ++ Dependencies.`ui5-webcomponents-laminar`
+object `laminar-pdfjs` extends WebModule with Scalafix with CommonPublish {
+  def publishVersion = Versions.`laminar-pdfjs`
 
-  def moduleDeps = Seq(pdfjs)
+  def pomSettings = PomSettings(
+    description = "Laminar PDF.js Viewer",
+    organization = "io.github.nguyenyou",
+    url = "https://github.com/nguyenyou/laminar-pdf-viewer",
+    licenses = Seq(License.MIT),
+    versionControl = VersionControl.github("nguyenyou", "laminar-pdf-viewer"),
+    developers = Seq(Developer("nguyenyou", "Nguyen You", "https://github.com/nguyenyou")),
+  )
+
+  def ivyDeps = super.ivyDeps() ++ Dependencies.laminar ++ Dependencies.`ui5-webcomponents-laminar` ++ Dependencies.pdfjs
+
+  // def moduleDeps = Seq(pdfjs)
 }
 
 object pdfjs extends WebModule with ScalablyTyped with CommonPublish {
