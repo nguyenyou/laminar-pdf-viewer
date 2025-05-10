@@ -1,19 +1,20 @@
 package build
 
-import mill._, scalalib._, scalajslib._, scalajslib.api._, publish._
+import mill._
+import scalalib._
+import scalajslib._
+import scalajslib.api._
+import publish._
 import $ivy.`io.github.nguyenyou::mill-scalablytyped::0.0.2`
 import io.github.nguyenyou.mill.scalablytyped._
 import $ivy.`com.lihaoyi::mill-contrib-sonatypecentral:`
 import mill.contrib.sonatypecentral.SonatypeCentralPublishModule
 import $ivy.`com.goyeau::mill-scalafix::0.5.0`
 import com.goyeau.mill.scalafix.ScalafixModule
-import mill.contrib.sonatypecentral.SonatypeCentralPublishModule.{
-  defaultAwaitTimeout,
-  defaultConnectTimeout,
-  defaultReadTimeout,
-}
+import mill.contrib.sonatypecentral.SonatypeCentralPublishModule.{defaultAwaitTimeout, defaultConnectTimeout, defaultReadTimeout}
 import $ivy.`com.lihaoyi::mill-contrib-buildinfo:`
 import mill.contrib.buildinfo.BuildInfo
+import mill.scalajslib.api.ESVersion.ES2021
 
 
 object Versions {
@@ -27,7 +28,6 @@ object Versions {
   val macrotask = "1.1.1"
   val borer = "1.14.0"
   val pdfjs = "5.2.133"
-  val comlink = "4.4.2"
   val mupdfjs = "1.3.6"
 }
 
@@ -90,6 +90,7 @@ trait CommonPublish extends SonatypeCentralPublishModule {
 
 object www extends WebModule with Scalafix {
   def moduleKind = ModuleKind.ESModule
+  def moduleSplitStyle = ModuleSplitStyle.FewestModules
 
   def ivyDeps = super.ivyDeps() ++
     Dependencies.waypoint ++
@@ -104,10 +105,24 @@ object www extends WebModule with Scalafix {
 
 object `mupdfjs-worker` extends WebModule with Scalafix {
   def moduleKind = ModuleKind.ESModule
+  // def moduleSplitStyle = ModuleSplitStyle.SmallestModules
+  def moduleSplitStyle = ModuleSplitStyle.FewestModules
+
+  override def esFeatures: T[ESFeatures] = ESFeatures.Defaults.copy(
+    esVersion = ESVersion.ES2021
+  )
 
   def ivyDeps = super.ivyDeps() ++ Dependencies.scalajsDom
 
-  def moduleDeps = Seq(mupdfjs, comlink)
+  def moduleDeps = Seq(mupdfjs, `mupdfjs-models`)
+}
+
+object `mupdfjs-models` extends WebModule with Scalafix {
+  def moduleKind = ModuleKind.ESModule
+
+  def ivyDeps = super.ivyDeps() ++ Dependencies.scalajsDom
+
+  def moduleDeps = Seq(mupdfjs)
 }
 
 object `laminar-pdfjs` extends WebModule with Scalafix with CommonPublish {
@@ -144,33 +159,9 @@ object pdfjs extends WebModule with ScalablyTyped with CommonPublish {
 
   override def stOutputPackage = "io.github.nguyenyou.pdfjs"
   override def stOutputPath = moduleDir / "src"
-  def stIgnoredLibs = T { Seq("@napi-rs/canvas", "@ui5/webcomponents", "mupdf", "comlink") }
+  def stIgnoredLibs = T { Seq("@napi-rs/canvas", "@ui5/webcomponents", "mupdf") }
   override def stMinimize = MinimizeSelection.AllExcept(
     "pdfjs-dist"
-  )
-}
-
-
-object comlink extends WebModule with ScalablyTyped with CommonPublish {
-
-  def publishVersion = Versions.comlink
-
-  def pomSettings = PomSettings(
-    description = "Comlink Facades",
-    organization = "io.github.nguyenyou",
-    url = "https://github.com/nguyenyou/laminar-pdf-viewer",
-    licenses = Seq(License.MIT),
-    versionControl = VersionControl.github("nguyenyou", "laminar-pdf-viewer"),
-    developers = Seq(Developer("nguyenyou", "Nguyen You", "https://github.com/nguyenyou")),
-  )
-
-  def ivyDeps = super.ivyDeps() ++ Dependencies.scalajsDom
-
-  override def stOutputPackage = "io.github.nguyenyou.comlink"
-  override def stOutputPath = moduleDir / "src"
-  def stIgnoredLibs = T { Seq("@ui5/webcomponents", "pdfjs-dist", "mupdf") }
-  override def stMinimize = MinimizeSelection.AllExcept(
-    "comlink"
   )
 }
 
@@ -191,7 +182,7 @@ object mupdfjs extends WebModule with ScalablyTyped with CommonPublish {
 
   override def stOutputPackage = "io.github.nguyenyou.mupdfjs"
   override def stOutputPath = moduleDir / "src"
-  def stIgnoredLibs = T { Seq("@ui5/webcomponents", "pdfjs-dist", "comlink") }
+  def stIgnoredLibs = T { Seq("@ui5/webcomponents", "pdfjs-dist") }
   override def stMinimize = MinimizeSelection.AllExcept(
     "mupdf"
   )

@@ -5,55 +5,47 @@ import io.github.nguyenyou.laminar.pdfjs.PdfConfig
 import org.scalajs.dom
 import www.components.ThemeProvider
 import org.scalajs.dom.{MessageEvent, Worker, WorkerOptions, WorkerType}
-import io.github.nguyenyou.mupdfjs.worker.MupdfWorker
-import io.github.nguyenyou.comlink.comlink.distUmdProtocolMod.Endpoint
+import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
+import org.scalajs.dom.Worker
 
-@main
-def main(): Unit = {
-  PdfConfig.setWorkerUrl(url =
-    org.scalajs.dom
-      .URL(
-        url = "pdfjs-dist/build/pdf.worker.min.mjs",
-        base = scalajs.js.`import`.meta.url.asInstanceOf[String]
-      )
-      .toString
-  )
+@JSExportTopLevel("Main")
+object Main {
+  @JSExport
+  def run(worker: Worker): Unit = {
+    PdfConfig.setWorkerUrl()
 
-  val mupdfWorkerUrl = org.scalajs.dom
-    .URL(
-      url = "/mupdfjs-worker.js",
-      base = scalajs.js.`import`.meta.url.asInstanceOf[String]
-    )
-    .toString
+    // val mupdfWorkerUrl = org.scalajs.dom
+    //   .URL(
+    //     url = "workers/mupdf.worker.js",
+    //     base = scalajs.js.`import`.meta.url.asInstanceOf[String]
+    //   )
+    //   .toString
+    // println(s"mupdfWorkerUrl: $mupdfWorkerUrl")
 
-  val workerOptions = scalajs.js.Dynamic
-    .literal(
-      `type` = WorkerType.module
-    )
-    .asInstanceOf[WorkerOptions]
-  val mupdfWorker   = new Worker(mupdfWorkerUrl, workerOptions)
+    // val workerOptions = scalajs.js.Dynamic
+    //   .literal(
+    //     `type` = WorkerType.module
+    //   )
+    //   .asInstanceOf[WorkerOptions]
+    // val mupdfWorker   = new Worker(mupdfWorkerUrl, workerOptions)
 
-  mupdfWorker.addEventListener(
-    "message",
-    (event: MessageEvent) => {
-      if (event.data == "MUPDF_LOADED") {
-        println("MESSAGE FROM WORKER MUPDF_LOADED")
+    worker.addEventListener(
+      "message",
+      (event: MessageEvent) => {
+        println(s"message: ${event.data}")
       }
-    }
-  )
-
-  mupdfWorker.postMessage("Hello from main thread")
-
-  val someWorker = new Worker(org.scalajs.dom
-    .URL(
-      url = "/some-worker.js",
-      base = scalajs.js.`import`.meta.url.asInstanceOf[String]
     )
-    .toString, workerOptions)
 
-  val container = dom.document.getElementById("app")
+    // val someWorker = new Worker(org.scalajs.dom
+    //   .URL(
+    //     url = "/some-worker.js",
+    //     base = scalajs.js.`import`.meta.url.asInstanceOf[String]
+    //   )
+    //   .toString, workerOptions)
 
-  render(container, ThemeProvider()(App(
-    mupdfWorker = mupdfWorker
-  )()))
+    val container = dom.document.getElementById("app")
+
+    render(container, ThemeProvider()(App()()))
+  }
+
 }
