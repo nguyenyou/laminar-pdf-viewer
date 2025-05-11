@@ -18,7 +18,7 @@ object Main {
       url = "pdfjs-dist/build/pdf.worker.min.mjs",
       base = scalajs.js.`import`.meta.url.asInstanceOf[String]
     ).toString
-    println(s"workerUrl: $workerUrl")
+    println(s"pdfjs worker url: $workerUrl")
     PdfConfig.setWorkerUrl()
 
     val muPdfWorkerClient = MuPdfWorkerClient(worker)

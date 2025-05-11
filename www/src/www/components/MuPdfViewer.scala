@@ -33,7 +33,9 @@ case class MuPdfDocument(
     urlSignal: Signal[String],
     muPdfWorkerClient: MuPdfWorkerClient
 ) {
-  val firstPageImageVar = Var(Option.empty[String])
+  case class DocumentData(pageCount: Int)
+  val documentDataVar = Var(Option.empty[DocumentData])
+  val documentDataSignal = documentDataVar.signal.distinct
   val pageCountVar      = Var(0)
 
   def loadPdf(url: String): Unit = {
@@ -52,8 +54,9 @@ case class MuPdfDocument(
         case Success(pdfData) =>
           muPdfWorkerClient.openDocument(pdfData).onComplete {
             case Success(result) =>
+
               val pageCount = result.asInstanceOf[js.Dynamic].pageCount.asInstanceOf[Int]
-              pageCountVar.set(pageCount)
+              documentDataVar.set(Some(DocumentData(pageCount)))
             case Failure(err) =>
               println(s"Failed to open document: ${err.getMessage}")
           }
@@ -64,14 +67,15 @@ case class MuPdfDocument(
     div(
       dataAttr("css-part") := "mupdfjs-document",
       urlSignal.distinct --> Observer[String](loadPdf),
-      child <-- pageCountVar.signal.map { count =>
-        div(
-          dataAttr("css-part") := "mupdfjs-pages",
-          MuPdfPage(
-            pageIndex = 0,
-            muPdfWorkerClient = muPdfWorkerClient,
-            scale = 1
-          )()
+      child <-- documentDataSignal.map {
+        case Some(DocumentData(pageCount)) =>
+          div(
+            dataAttr("css-part") := "mupdfjs-pages",
+            MuPdfPage(
+              pageIndex = 0,
+              muPdfWorkerClient = muPdfWorkerClient,
+              scale = 1
+            )()
           // 0.until(count).map { pageIndex =>
           //   MuPdfPage(
           //     pageIndex = pageIndex,
@@ -79,7 +83,9 @@ case class MuPdfDocument(
           //     scale = 1
           //   )()
           // }
-        )
+          )
+        case None =>
+          div()
       }
     )
   }
