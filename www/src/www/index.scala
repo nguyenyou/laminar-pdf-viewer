@@ -18,35 +18,10 @@ object Main {
       url = "pdfjs-dist/build/pdf.worker.min.mjs",
       base = scalajs.js.`import`.meta.url.asInstanceOf[String]
     ).toString
-    println(s"pdfjs worker url: $workerUrl")
-    PdfConfig.setWorkerUrl()
+    PdfConfig.setWorkerUrl(workerUrl)
 
     val muPdfWorkerClient = MuPdfWorkerClient(worker)
     muPdfWorkerClient.listen()
-
-    // val mupdfWorkerUrl = org.scalajs.dom
-    //   .URL(
-    //     url = "workers/mupdf.worker.js",
-    //     base = scalajs.js.`import`.meta.url.asInstanceOf[String]
-    //   )
-    //   .toString
-    // println(s"mupdfWorkerUrl: $mupdfWorkerUrl")
-
-    // val workerOptions = scalajs.js.Dynamic
-    //   .literal(
-    //     `type` = WorkerType.module
-    //   )
-    //   .asInstanceOf[WorkerOptions]
-    // val mupdfWorker   = new Worker(mupdfWorkerUrl, workerOptions)
-
-    
-
-    // val someWorker = new Worker(org.scalajs.dom
-    //   .URL(
-    //     url = "/some-worker.js",
-    //     base = scalajs.js.`import`.meta.url.asInstanceOf[String]
-    //   )
-    //   .toString, workerOptions)
 
     val container = dom.document.getElementById("app")
 

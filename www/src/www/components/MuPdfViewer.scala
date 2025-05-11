@@ -34,9 +34,9 @@ case class MuPdfDocument(
     muPdfWorkerClient: MuPdfWorkerClient
 ) {
   case class DocumentData(pageCount: Int)
-  val documentDataVar = Var(Option.empty[DocumentData])
+  val documentDataVar    = Var(Option.empty[DocumentData])
   val documentDataSignal = documentDataVar.signal.distinct
-  val pageCountVar      = Var(0)
+  val pageCountVar       = Var(0)
 
   def loadPdf(url: String): Unit = {
     dom
@@ -54,7 +54,6 @@ case class MuPdfDocument(
         case Success(pdfData) =>
           muPdfWorkerClient.openDocument(pdfData).onComplete {
             case Success(result) =>
-
               val pageCount = result.asInstanceOf[js.Dynamic].pageCount.asInstanceOf[Int]
               documentDataVar.set(Some(DocumentData(pageCount)))
             case Failure(err) =>
@@ -71,18 +70,13 @@ case class MuPdfDocument(
         case Some(DocumentData(pageCount)) =>
           div(
             dataAttr("css-part") := "mupdfjs-pages",
-            MuPdfPage(
-              pageIndex = 0,
-              muPdfWorkerClient = muPdfWorkerClient,
-              scale = 1
-            )()
-          // 0.until(count).map { pageIndex =>
-          //   MuPdfPage(
-          //     pageIndex = pageIndex,
-          //     muPdfWorkerClient = muPdfWorkerClient,
-          //     scale = 1
-          //   )()
-          // }
+            0.until(pageCount).map { pageIndex =>
+              MuPdfPage(
+                pageIndex = pageIndex,
+                muPdfWorkerClient = muPdfWorkerClient,
+                scale = 1
+              )()
+            }
           )
         case None =>
           div()
