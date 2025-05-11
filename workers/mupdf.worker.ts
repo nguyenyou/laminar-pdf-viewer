@@ -96,11 +96,13 @@ export class MupdfWorker {
         [scale, 0, 0, scale, 0, 0],
         mupdf.ColorSpace.DeviceRGB
       );
+      const width = pixmap.getWidth()
+      const height = pixmap.getHeight()
 
       let png = pixmap.asPNG();
       pixmap.destroy();
       
-      this.sendResponse("renderPage", png, true, id);
+      this.sendResponse("renderPage", { imageData: png, pageIndex, width, height }, true, id);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       this.sendError("renderPage", `Failed to render page: ${errorMessage}`, id);
@@ -112,8 +114,6 @@ const engine = new MupdfWorker();
 
 // Message handler
 onmessage = (event) => {
-  console.log("Worker received message:", event.data);
-  
   try {
     const message = event.data as WorkerMessage;
     const { id, messageType, payload } = message;

@@ -21,13 +21,5 @@ export default defineConfig({
         worker: resolve(__dirname, "workers/mupdf.worker.ts"),
       },
     },
-  },
-  resolve: {
-    alias: [
-      {
-        find: /^scalajs:(.*)$/,
-        replacement: `./out/www/${IS_PROD ? "full" : "fast"}LinkJS.dest/$1`,
-      }
-    ],
   }
 });

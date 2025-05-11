@@ -15,14 +15,16 @@ case class WorkerRequest(id: String, messageType: String, payload: js.Any)      
 case class WorkerResponse(id: String, messageType: String, data: js.Any, success: Boolean) extends WorkerMessage
 case class WorkerError(id: String, messageType: String, error: String)                     extends WorkerMessage
 
-case class MuPdfWorkerClient(worker: Worker) {
+case class MuPdfWorkerClient(worker: Worker, debug: Boolean = false) {
   private var messageCallbacks     = Map.empty[String, Promise[js.Any]]
   private var messageCounter       = 0
   private val workerInitializedVar = Var(false)
   val workerInitializedSignal      = workerInitializedVar.signal.distinct
 
   def logger(message: String): Unit = {
-    println(s"[MuPdfWorkerClient] ${message}")
+    if (debug) {
+      println(s"[MuPdfWorkerClient] ${message}")
+    }
   }
 
   def listen(): Unit = {
@@ -42,7 +44,6 @@ case class MuPdfWorkerClient(worker: Worker) {
 
   private def handleMessage(data: js.Dynamic): Unit = {
     try {
-      logger(s"Received message from worker: ${js.JSON.stringify(data)}")
       // Check if we have a callback for this id
       if (!js.isUndefined(data.id)) {
         val id = data.id.asInstanceOf[String]

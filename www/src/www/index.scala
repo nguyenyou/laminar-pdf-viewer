@@ -13,7 +13,13 @@ import www.components.MuPdfWorkerClient
 object Main {
   @JSExport
   def run(worker: Worker): Unit = {
+    val workerUrl = org.scalajs.dom.URL(
+      url = "pdfjs-dist/build/pdf.worker.min.mjs",
+      base = scalajs.js.`import`.meta.url.asInstanceOf[String]
+    ).toString
+    println(s"workerUrl: $workerUrl")
     PdfConfig.setWorkerUrl()
+
     val muPdfWorkerClient = MuPdfWorkerClient(worker)
     muPdfWorkerClient.listen()
 
