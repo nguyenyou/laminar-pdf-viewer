@@ -7,12 +7,15 @@ import www.components.ThemeProvider
 import org.scalajs.dom.{MessageEvent, Worker, WorkerOptions, WorkerType}
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 import org.scalajs.dom.Worker
+import www.components.MuPdfWorkerClient
 
 @JSExportTopLevel("Main")
 object Main {
   @JSExport
   def run(worker: Worker): Unit = {
     PdfConfig.setWorkerUrl()
+    val muPdfWorkerClient = MuPdfWorkerClient(worker)
+    muPdfWorkerClient.listen()
 
     // val mupdfWorkerUrl = org.scalajs.dom
     //   .URL(
@@ -29,12 +32,7 @@ object Main {
     //   .asInstanceOf[WorkerOptions]
     // val mupdfWorker   = new Worker(mupdfWorkerUrl, workerOptions)
 
-    // worker.addEventListener(
-    //   "message",
-    //   (event: MessageEvent) => {
-    //     println(s"message: ${event.data}")
-    //   }
-    // )
+    
 
     // val someWorker = new Worker(org.scalajs.dom
     //   .URL(
@@ -45,7 +43,7 @@ object Main {
 
     val container = dom.document.getElementById("app")
 
-    render(container, ThemeProvider()(App(worker = worker)()))
+    render(container, ThemeProvider()(App(muPdfWorkerClient = muPdfWorkerClient)()))
   }
 
 }
