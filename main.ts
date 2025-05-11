@@ -8,3 +8,4 @@ const worker = new Worker(new URL("./workers/mupdf.worker", import.meta.url), {
 });
 
 Main.run(worker)
+

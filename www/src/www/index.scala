@@ -3,11 +3,12 @@ package www
 import com.raquo.laminar.api.L.*
 import io.github.nguyenyou.laminar.pdfjs.PdfConfig
 import org.scalajs.dom
-import www.components.ThemeProvider
-import org.scalajs.dom.{MessageEvent, Worker, WorkerOptions, WorkerType}
-import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 import org.scalajs.dom.Worker
 import www.components.MuPdfWorkerClient
+import www.components.ThemeProvider
+
+import scala.scalajs.js.annotation.JSExport
+import scala.scalajs.js.annotation.JSExportTopLevel
 
 @JSExportTopLevel("Main")
 object Main {

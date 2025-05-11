@@ -1,12 +1,14 @@
 package www.components
 
 import com.raquo.laminar.api.L.*
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import org.scalajs.dom
-import scalajs.js.Thenable.Implicits.*
-import scala.util.{Failure, Success}
 import www.components.MuPdfWorkerClient
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.Failure
+import scala.util.Success
+
+import scalajs.js.Thenable.Implicits.*
 import scalajs.js
 
 case class MuPdfViewer(
@@ -65,13 +67,18 @@ case class MuPdfDocument(
       child <-- pageCountVar.signal.map { count =>
         div(
           dataAttr("css-part") := "mupdfjs-pages",
-          0.until(count).map { pageIndex =>
-            MuPdfPage(
-              pageIndex = pageIndex,
-              muPdfWorkerClient = muPdfWorkerClient,
-              scale = 1
-            )()
-          }
+          MuPdfPage(
+            pageIndex = 0,
+            muPdfWorkerClient = muPdfWorkerClient,
+            scale = 1
+          )()
+          // 0.until(count).map { pageIndex =>
+          //   MuPdfPage(
+          //     pageIndex = pageIndex,
+          //     muPdfWorkerClient = muPdfWorkerClient,
+          //     scale = 1
+          //   )()
+          // }
         )
       }
     )

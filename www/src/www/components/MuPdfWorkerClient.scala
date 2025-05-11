@@ -1,13 +1,14 @@
 package www.components
 
-import org.scalajs.dom.Worker
-import scala.scalajs.js.typedarray.ArrayBuffer
-import org.scalajs.dom.MessageEvent
-import scala.scalajs.js
-import scala.concurrent.{Future, Promise}
-import scala.util.{Success, Failure, Try}
-import scala.concurrent.ExecutionContext.Implicits.global
 import com.raquo.laminar.api.L.*
+import org.scalajs.dom.MessageEvent
+import org.scalajs.dom.Worker
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.concurrent.Promise
+import scala.scalajs.js
+import scala.scalajs.js.typedarray.ArrayBuffer
 
 // Message types for communication with the worker
 sealed trait WorkerMessage
