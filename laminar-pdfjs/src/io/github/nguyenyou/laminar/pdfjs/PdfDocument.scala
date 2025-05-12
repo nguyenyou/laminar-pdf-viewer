@@ -4,7 +4,6 @@ import com.raquo.laminar.api.L.*
 import io.github.nguyenyou.pdfjs.pdfjsDist.mod.getDocument
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.DocumentInitParameters
 import io.github.nguyenyou.pdfjs.pdfjsDist.typesSrcDisplayApiMod.PDFDocumentProxy
-import io.github.nguyenyou.ui5.webcomponents.laminar.*
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Failure
@@ -30,18 +29,7 @@ case class PdfDocument(
     div(
       cls("pdf-document"),
       child <-- statusSignal.map {
-        case DocumentStatus.Loading =>
-          div(
-            BusyIndicator(
-              _.active := true,
-              _.text   := "Loading document..."
-            )(
-              div(
-                width.px(200),
-                height.px(200)
-              )
-            )
-          )
+        case DocumentStatus.Loading => div()
         case DocumentStatus.Error       => div("Load document error")
         case DocumentStatus.Loaded(doc) => render(doc)
       }
