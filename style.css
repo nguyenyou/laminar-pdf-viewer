@@ -19,8 +19,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--sapBackgroundColor);
-  color: var(--sapTextColor);
+  background-color: whitesmoke;
 }
 
 *,
